@@ -1,11 +1,11 @@
 import { Container } from "@mui/material";
 
-const Dashboard = () => {
+const Bookings = () => {
   return (
     <Container maxWidth="xl">
-      <div>Welcome!</div>
+      <div>Bookings</div>
     </Container>
   );
 };
 
-export default Dashboard;
+export default Bookings;

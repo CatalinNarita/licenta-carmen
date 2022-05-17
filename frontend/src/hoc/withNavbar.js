@@ -8,8 +8,8 @@ import {
   Button,
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import "./navbar.css";
 
 const pages = [
@@ -21,7 +21,7 @@ const pages = [
 
 export const withNavbar = (Component) => {
   const Wrapper = () => {
-    const { firstName, lastName } = useAuth();
+    const { loading, redirect, firstName, lastName } = useAuth();
 
     const navigate = useNavigate();
 
@@ -68,16 +68,26 @@ export const withNavbar = (Component) => {
               >
                 LOGO
               </Typography>
-              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  display: { xs: "none", md: "flex" },
+                  minHeight: "inherit",
+                }}
+              >
                 {pages.map((page) => (
-                  <Link
+                  <NavLink
                     className="link"
+                    style={({ isActive }) => {
+                      return isActive
+                        ? { backgroundColor: "rgba(255,255,255, 0.4)" }
+                        : undefined;
+                    }}
                     key={page.label}
                     to={page.to}
-                    sx={{ my: 2, color: "white", display: "block" }}
                   >
                     {page.label}
-                  </Link>
+                  </NavLink>
                 ))}
               </Box>
               <Box sx={{ flexGrow: 0 }}>
@@ -96,7 +106,7 @@ export const withNavbar = (Component) => {
             </Toolbar>
           </Container>
         </AppBar>
-        <Component />
+        {loading ? null : redirect ? <Navigate to="/" /> : <Component />}
       </>
     );
   };

@@ -6,6 +6,9 @@ import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/login/Login";
 import Register from "./components/register/Register";
 import Dashboard from "./components/dashboard/Dashboard";
+import Bookings from "./components/bookings/Bookings";
+import Account from "./components/account/Account";
+import Contact from "./components/contact/Contact";
 import { withNavbar } from "./hoc/withNavbar";
 
 const theme = createTheme({});
@@ -19,6 +22,9 @@ root.render(
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={withNavbar(Dashboard)} />
+          <Route path="/bookings" element={withNavbar(Bookings)} />
+          <Route path="/account" element={withNavbar(Account)} />
+          <Route path="/contact" element={withNavbar(Contact)} />
         </Routes>
       </Router>
     </ThemeProvider>
