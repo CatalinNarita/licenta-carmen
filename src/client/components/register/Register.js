@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Container,
   Paper,
@@ -8,10 +9,62 @@ import {
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 
 const Register = (props) => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [repeatedPassword, setRepeatedPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handlefirstNameChange = (e) => {
+    setFirstName(e.target.value);
+  };
+
+  const handleLastNameChange = (e) => {
+    setLastName(e.target.value);
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleRepeatedPasswordChange = (e) => {
+    setRepeatedPassword(e.target.value);
+  };
+
+  const handleRegister = () => {
+    if (!password || password !== repeatedPassword) {
+      return;
+    }
+
+    fetch("http://localhost:5001/register", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        firstName,
+        lastName,
+        email,
+        password,
+      }),
+    }).then((res) => {
+      if (res.status === 200) {
+        navigate("/dashboard");
+      }
+    });
+  };
+
   return (
     <Container maxWidth="lg">
       <Paper
@@ -46,6 +99,8 @@ const Register = (props) => {
             style={{
               width: "100%",
             }}
+            value={firstName}
+            onChange={handlefirstNameChange}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -60,6 +115,8 @@ const Register = (props) => {
             style={{
               width: "100%",
             }}
+            value={lastName}
+            onChange={handleLastNameChange}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -74,6 +131,8 @@ const Register = (props) => {
             style={{
               width: "100%",
             }}
+            value={email}
+            onChange={handleEmailChange}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -88,6 +147,8 @@ const Register = (props) => {
             style={{
               width: "100%",
             }}
+            value={password}
+            onChange={handlePasswordChange}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -102,6 +163,8 @@ const Register = (props) => {
             style={{
               width: "100%",
             }}
+            value={repeatedPassword}
+            onChange={handleRepeatedPasswordChange}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -110,7 +173,12 @@ const Register = (props) => {
               ),
             }}
           ></TextField>
-          <Button fullWidth color="primary" variant="contained">
+          <Button
+            fullWidth
+            color="primary"
+            variant="contained"
+            onClick={handleRegister}
+          >
             REGISTER
           </Button>
           <div>
