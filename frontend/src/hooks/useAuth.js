@@ -1,16 +1,25 @@
 import { useState, useEffect } from "react";
+import jwt_decode from "jwt-decode";
 
 export const useAuth = () => {
+  const [token, setToken] = useState();
   const [loading, setLoading] = useState(true);
   const [redirect, setRedirect] = useState(false);
+  const [firstName, setFirstName] = useState(false);
+  const [lastName, setLastName] = useState(false);
 
   useEffect(() => {
     async function checkToken() {
       try {
-        const res = await fetch("http://localhost:5001/checkToken", {
+        const res = await fetch("http://localhost:5001/token", {
           method: "GET",
           credentials: "include",
         });
+        const responseBody = await res.json();
+        const decoded = jwt_decode(responseBody.accessToken);
+        setToken(decoded);
+        setFirstName(decoded.firstName);
+        setLastName(decoded.lastName);
         if (res.status === 200) {
           setLoading(false);
         } else {
@@ -26,5 +35,5 @@ export const useAuth = () => {
     checkToken();
   }, []);
 
-  return { loading, redirect };
+  return { token, firstName, lastName, loading, redirect };
 };

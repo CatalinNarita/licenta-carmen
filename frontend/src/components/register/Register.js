@@ -6,6 +6,8 @@ import {
   TextField,
   Button,
   InputAdornment,
+  Alert,
+  Stack,
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
@@ -18,6 +20,7 @@ const Register = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatedPassword, setRepeatedPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handlefirstNameChange = (e) => {
@@ -40,12 +43,12 @@ const Register = (props) => {
     setRepeatedPassword(e.target.value);
   };
 
-  const handleRegister = () => {
-    if (!password || password !== repeatedPassword) {
-      return;
-    }
+  const handleRegister = async () => {
+    // if (!password || password !== repeatedPassword) {
+    //   return;
+    // }
 
-    fetch("http://localhost:5001/register", {
+    const res = await fetch("http://localhost:5001/register", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -57,12 +60,16 @@ const Register = (props) => {
         lastName,
         email,
         password,
+        repeatedPassword,
       }),
-    }).then((res) => {
-      if (res.status === 200) {
-        navigate("/dashboard");
-      }
     });
+    if (res.status === 200) {
+      setError(null);
+      navigate("/dashboard");
+    } else {
+      const resBody = await res.json();
+      setError(resBody.msg);
+    }
   };
 
   return (
@@ -144,6 +151,7 @@ const Register = (props) => {
           <TextField
             label="Password"
             variant="outlined"
+            type="password"
             style={{
               width: "100%",
             }}
@@ -160,6 +168,7 @@ const Register = (props) => {
           <TextField
             label="Repeat password"
             variant="outlined"
+            type="password"
             style={{
               width: "100%",
             }}
@@ -173,6 +182,11 @@ const Register = (props) => {
               ),
             }}
           ></TextField>
+          {error && (
+            <Stack sx={{ width: "100%" }} spacing={2}>
+              <Alert severity="error">{error}</Alert>
+            </Stack>
+          )}
           <Button
             fullWidth
             color="primary"

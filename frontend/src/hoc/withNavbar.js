@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useAuth } from "../hooks/useAuth";
 import {
   AppBar,
   Container,
@@ -21,31 +21,21 @@ const pages = [
 
 export const withNavbar = (Component) => {
   const Wrapper = () => {
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
+    const { firstName, lastName } = useAuth();
 
     const navigate = useNavigate();
-
-    const firstNameLS = localStorage.getItem("firstName");
-    const lastNameLS = localStorage.getItem("lastName");
-
-    useEffect(() => {
-      setFirstName(firstNameLS);
-      setLastName(lastNameLS);
-    }, [firstNameLS, lastNameLS]);
 
     const handleLogout = async () => {
       try {
         const res = await fetch("http://localhost:5001/logout", {
-          method: "POST",
+          method: "DELETE",
           headers: {
             "Content-Type": "application/json",
           },
           credentials: "include",
         });
         if (res.status === 200) {
-          localStorage.clear();
-          navigate("/login");
+          navigate("/");
         } else {
           const resBody = await res.json();
           console.log(resBody.error);
