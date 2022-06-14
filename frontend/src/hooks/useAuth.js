@@ -7,6 +7,7 @@ export const useAuth = () => {
   const [redirect, setRedirect] = useState(false);
   const [firstName, setFirstName] = useState(false);
   const [lastName, setLastName] = useState(false);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     async function checkToken() {
@@ -17,9 +18,11 @@ export const useAuth = () => {
         });
         const responseBody = await res.json();
         const decoded = jwt_decode(responseBody.accessToken);
-        setToken(decoded);
+        setToken(responseBody.accessToken);
+        console.log(decoded);
         setFirstName(decoded.firstName);
         setLastName(decoded.lastName);
+        setUserId(decoded.id);
         if (res.status === 200) {
           setLoading(false);
         } else {
@@ -32,8 +35,9 @@ export const useAuth = () => {
       }
     }
 
-    checkToken();
-  }, []);
+    console.log(token);
+    !token && checkToken();
+  }, [token]);
 
-  return { token, firstName, lastName, loading, redirect };
+  return () => ({ token, userId, firstName, lastName, loading, redirect });
 };

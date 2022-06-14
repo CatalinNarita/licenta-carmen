@@ -15,7 +15,7 @@ import { Link, useNavigate, Navigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 
 const Login = () => {
-  const { loading, redirect } = useAuth();
+  const { loading, redirect } = useAuth()();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");

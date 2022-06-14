@@ -13,15 +13,16 @@ import { useNavigate, Navigate } from "react-router-dom";
 import "./navbar.css";
 
 const pages = [
-  { to: "/dashboard", label: "Home" },
-  { to: "/bookings", label: "Bookings" },
-  { to: "/account", label: "Account" },
+  { to: "/dashboard", label: "Acasa" },
+  { to: "/bookings", label: "Cazare" },
+  { to: "/account", label: "Cont" },
+  { to: "/offers", label: "Oferte" },
   { to: "/contact", label: "Contact" },
 ];
 
 export const withNavbar = (Component) => {
   const Wrapper = () => {
-    const { loading, redirect, firstName, lastName } = useAuth();
+    const { loading, redirect, firstName, lastName } = useAuth()();
 
     const navigate = useNavigate();
 
@@ -55,7 +56,7 @@ export const withNavbar = (Component) => {
                 variant="h6"
                 noWrap
                 component="a"
-                href="/dashboard"
+                href="/"
                 sx={{
                   mr: 2,
                   display: { xs: "none", md: "flex" },
@@ -97,7 +98,7 @@ export const withNavbar = (Component) => {
                     mr: 5,
                   }}
                 >
-                  Welcome, {firstName} {lastName}!
+                  Bine ai venit, {firstName} {lastName}!
                 </Typography>
                 <Button color="inherit" onClick={handleLogout}>
                   Logout
