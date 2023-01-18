@@ -13,11 +13,9 @@ import { useNavigate, Navigate } from "react-router-dom";
 import "./navbar.css";
 
 const pages = [
-  { to: "/dashboard", label: "Home" },
-  { to: "/rooms", label: "Rooms" },
-  { to: "/bookings", label: "Bookings" },
-  { to: "/account", label: "Account" },
-  { to: "/contact", label: "Contact" },
+  { to: "/dashboard", label: "Acasa" },
+  { to: "/rooms", label: "Camere" },
+  { to: "/bookings", label: "Rezervarile mele" },
 ];
 
 export const withNavbar = (Component) => {

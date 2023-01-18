@@ -7,8 +7,6 @@ import Login from "./components/login/Login";
 import Register from "./components/register/Register";
 import Dashboard from "./components/dashboard/Dashboard";
 import Bookings from "./components/bookings/Bookings";
-import Account from "./components/account/Account";
-import Contact from "./components/contact/Contact";
 import { withNavbar } from "./hoc/withNavbar";
 import { Rooms } from "./components/rooms/Rooms";
 
@@ -25,10 +23,6 @@ root.render(
           <Route path="/dashboard" element={withNavbar(Dashboard)} />
           <Route path="/rooms" element={withNavbar(Rooms)} />
           <Route path="/bookings" element={withNavbar(Bookings)} />
-          <Route path="/account" element={withNavbar(Account)} />
-          {/* <Route path="/offers" element={withNavbar(Offers)} /> */}
-          <Route path="/contact" element={withNavbar(Contact)} />
-          {/* <Route path="/book/:roomId" element={withNavbar(Book)} /> */}
         </Routes>
       </Router>
     </ThemeProvider>

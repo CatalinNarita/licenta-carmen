@@ -1,21 +1,57 @@
-import "./room-card.css";
+import {
+  Card,
+  CardContent,
+  Box,
+  Typography,
+  CardMedia,
+  CardActions,
+  Button,
+} from "@mui/material";
 
-export function RoomCard(props) {
+export function RoomCard({ room, onBookNowClick }) {
+  const { title, capacity, phone, type } = room;
+
   return (
-    <div className="card-container">
-      <img
-        className="room-image"
-        src="https://th.bing.com/th/id/OIP.QxadRQgf34lGKQLXWXFIHgHaE7?pid=ImgDet&rs=1"
-      ></img>
-      <div className="card-details">
-        <div>
-          <h2>{props.title}</h2>
-          <div>Max Count:{props.capacity}</div>
-          <div>Phone Number:{props.phone}</div>
-          <div>Type: {props.type}</div>
-        </div>
-      </div>
-      <button className="book-button">Book now</button>
-    </div>
+    <Card sx={{ display: "flex" }}>
+      <CardMedia
+        component="img"
+        sx={{ width: 151 }}
+        image="https://th.bing.com/th/id/OIP.QxadRQgf34lGKQLXWXFIHgHaE7?pid=ImgDet&rs=1"
+        alt="Live from space album cover"
+      />
+      <Box sx={{ display: "flex", flexDirection: "column", flex: 1 }}>
+        <CardContent>
+          <Typography component="div" variant="h5">
+            {title}
+          </Typography>
+          <Typography
+            variant="subtitle1"
+            color="text.secondary"
+            component="div"
+          >
+            Capacitate: {capacity}
+          </Typography>
+          <Typography
+            variant="subtitle1"
+            color="text.secondary"
+            component="div"
+          >
+            Telefon:{phone}
+          </Typography>
+          <Typography
+            variant="subtitle1"
+            color="text.secondary"
+            component="div"
+          >
+            Tip: {type}
+          </Typography>
+        </CardContent>
+      </Box>
+      <CardActions sx={{ alignSelf: "flex-end" }}>
+        <Button variant="contained" onClick={() => onBookNowClick(room)}>
+          Rezerva acum!
+        </Button>
+      </CardActions>
+    </Card>
   );
 }

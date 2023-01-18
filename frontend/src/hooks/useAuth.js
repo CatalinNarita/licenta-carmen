@@ -34,7 +34,6 @@ export const useAuth = () => {
       }
     }
 
-    console.log(token);
     !token && checkToken();
   }, [token]);
 

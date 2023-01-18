@@ -1,4 +1,4 @@
-import { Button, Container } from "@mui/material";
+import { Container } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import Table from "@mui/material/Table";
@@ -8,28 +8,30 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { useNavigate } from "react-router-dom";
+import { format, parseISO } from "date-fns";
 
 const Bookings = () => {
-  const [rooms, setRooms] = useState([]);
-  const { token } = useAuth()();
-  let navigate = useNavigate();
+  const [bookings, setBookings] = useState([]);
+  const { token, userId } = useAuth();
 
   useEffect(() => {
-    const getRooms = async () => {
-      const response = await fetch("http://localhost:5001/rooms", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      });
-      const rooms = await response.json();
-      console.log(rooms);
-      setRooms(rooms);
+    const getBookings = async () => {
+      const response = await fetch(
+        "http://localhost:5001/bookings?" + new URLSearchParams({ userId }),
+        {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const bookings = await response.json();
+
+      setBookings(bookings);
     };
-    token && getRooms();
-  }, [token]);
+    token && getBookings();
+  }, [token, userId]);
 
   return (
     <Container maxWidth="xl">
@@ -37,34 +39,28 @@ const Bookings = () => {
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Camera</TableCell>
-              <TableCell>Mic dejun inclus</TableCell>
+              <TableCell>Denumire</TableCell>
+              <TableCell>Numar rezervare</TableCell>
               <TableCell>Tip</TableCell>
-              <TableCell>Vedere la lac</TableCell>
-              <TableCell></TableCell>
+              <TableCell>Capacitate</TableCell>
+              <TableCell>Check-in</TableCell>
+              <TableCell>Check-out</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rooms.map((room) => (
-              <TableRow
-                key={room.id}
-                // sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
+            {bookings.map((booking) => (
+              <TableRow key={booking.booking_number}>
                 <TableCell component="th" scope="row">
-                  {room.id}
+                  {booking.title}
                 </TableCell>
-                <TableCell>{room.breakfast_included ? "Da" : "Nu"}</TableCell>
-                <TableCell>{room.type.toLowerCase()}</TableCell>
-                <TableCell>{room.lake_view ? "Da" : "Nu"}</TableCell>
+                <TableCell>{booking.booking_number}</TableCell>
+                <TableCell>{booking.type}</TableCell>
+                <TableCell>{booking.capacity}</TableCell>
                 <TableCell>
-                  <Button
-                    variant="contained"
-                    onClick={() => {
-                      navigate(`/book/${room.id}`);
-                    }}
-                  >
-                    Rezerva
-                  </Button>
+                  {format(parseISO(booking.start_date), "dd/MM/yyyy")}
+                </TableCell>
+                <TableCell>
+                  {format(parseISO(booking.end_date), "dd/MM/yyyy")}
                 </TableCell>
               </TableRow>
             ))}

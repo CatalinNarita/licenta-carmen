@@ -17,7 +17,6 @@ const Bookings = db.define(
     },
     phone_number: {
       type: DataTypes.STRING,
-      unique: true,
     },
     start_date: {
       type: DataTypes.DATE,

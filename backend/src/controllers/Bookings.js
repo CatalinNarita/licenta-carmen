@@ -1,3 +1,4 @@
+import db from "../config/Database.js";
 import Bookings from "../models/BookingModel.js";
 
 export const getBookings = async (req, res) => {
@@ -18,7 +19,20 @@ export const getBookings = async (req, res) => {
   }
 };
 
-export const registrBooking = async (req, res) => {
+export const getUserBookings = async (req, res) => {
+  const { userId } = req.query;
+  try {
+    const [bookings] = await db.query(
+      `select rooms.title, rooms.capacity, rooms.type, bookings.booking_number, bookings.start_date, bookings.end_date FROM rooms JOIN bookings ON bookings.room_id = rooms.id WHERE bookings.user_id = ${userId}`
+    );
+
+    res.json(bookings);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const registerBooking = async (req, res) => {
   const { phoneNumber, numberOfGuests, startDate, endDate, userId, roomId } =
     req.body;
 

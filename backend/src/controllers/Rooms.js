@@ -14,7 +14,7 @@ export const getRooms = async (req, res) => {
 };
 
 export const getAvailableRooms = async (req, res) => {
-  const { startDate, endDate } = req.query;
+  const { startDate, endDate } = req.body;
 
   try {
     const bookedRooms = await Bookings.findAll({
@@ -23,13 +23,27 @@ export const getAvailableRooms = async (req, res) => {
         [Op.or]: [
           {
             start_date: {
-              [Op.and]: [{ [Op.gte]: startDate }, { [Op.gte]: endDate }],
+              [Op.and]: [{ [Op.gt]: startDate }, { [Op.lt]: endDate }],
             },
           },
           {
             end_date: {
-              [Op.and]: [{ [Op.lte]: startDate }, { [Op.lte]: endDate }],
+              [Op.and]: [{ [Op.gt]: startDate }, { [Op.lt]: endDate }],
             },
+          },
+          {
+            [Op.and]: [
+              {
+                start_date: {
+                  [Op.lte]: startDate,
+                },
+              },
+              {
+                end_date: {
+                  [Op.gte]: endDate,
+                },
+              },
+            ],
           },
         ],
       },

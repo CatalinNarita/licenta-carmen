@@ -2,9 +2,8 @@ import express from "express";
 import { getUsers, Register, Login, Logout } from "../controllers/Users.js";
 import { verifyToken } from "../middleware/VerifyToken.js";
 import { refreshToken } from "../controllers/RefreshToken.js";
-import { getRooms } from "../controllers/Rooms.js";
-import { getAvailableRooms } from "../controllers/Rooms.js";
-// import { registrBooking } from "../controllers/Bookings.js";
+import { getRooms, getAvailableRooms } from "../controllers/Rooms.js";
+import { getUserBookings, registerBooking } from "../controllers/Bookings.js";
 
 const router = express.Router();
 
@@ -15,7 +14,9 @@ router.post("/login", Login);
 router.get("/token", refreshToken);
 router.delete("/logout", Logout);
 
-router.get("/search", getAvailableRooms);
+router.post("/search", getAvailableRooms);
+router.get("/bookings", getUserBookings);
+router.post("/book", registerBooking);
 
 // router.post("/book", verifyToken, registrBooking);
 
