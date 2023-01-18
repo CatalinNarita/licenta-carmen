@@ -5,14 +5,12 @@ import { Container, TextField, Stack, Box, Button } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers-pro";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
+import { format } from "date-fns";
 
 export function Rooms() {
   const { token } = useAuth();
   const [rooms, setRooms] = useState([]);
   const [value, setValue] = useState([null, null]);
-
-  console.log(value, new Date(value[0].getTime()));
-  console.log(new Date(value[0].getTime()));
 
   useEffect(() => {
     const getRooms = async () => {
@@ -39,6 +37,31 @@ export function Rooms() {
     token && getRooms();
   }, [token]);
 
+  const handleSearch = async () => {
+    try {
+      const res = await fetch(
+        "http://localhost:5001/search?" +
+          new URLSearchParams({
+            startDate: format(value[0], "dd/MM/yyyy"),
+            endDate: format(value[1], "dd/MM/yyyy"),
+          }),
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          credentials: "include",
+        }
+      );
+
+      const rooms = await res.json();
+      setRooms(rooms);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <Container maxWidth="lg">
       <Stack mt={2} mb={2}>
@@ -61,7 +84,9 @@ export function Rooms() {
               )}
             />
           </LocalizationProvider>
-          <Button variant="contained">Cautare</Button>
+          <Button variant="contained" onClick={handleSearch}>
+            Cautare
+          </Button>
         </div>
       </Stack>
 

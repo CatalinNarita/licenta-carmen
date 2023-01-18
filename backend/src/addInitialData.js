@@ -1,3 +1,6 @@
+import Rooms from "./models/RoomModel.js";
+import Bookings from "./models/BookingModel.js";
+
 export const rooms = [
   {
     title: "Title 1",
@@ -65,27 +68,21 @@ export const bookings = [
   {
     booking_number: 1,
     num_of_guests: 2,
-    start_date: "2023-01-17T13:00:00.000Z",
-    end_date: "2023-01-18T13:00:00.000Z",
-    user_id: 17,
-    room_id: 93,
+    start_date: "2023-01-17",
+    end_date: "2023-01-18",
+    user_id: 1,
+    room_id: 1,
   },
 ];
 
+Rooms.sync().then(() => {
+  rooms.forEach((room) => {
+    Rooms.create(room);
+  });
+});
 
-//
-
-SELECT
-    `rooms`.*
-FROM
-    `rooms`
-LEFT JOIN `bookings` ON `rooms`.`id` = `bookings`.`room_id`
-WHERE `bookings`.`room_id` IS NOT NULL AND /*'2023-01-17 13:00:00' <= `bookings`.`start_date`;*/
-    ((
-        '2023-01-14 13:00:00' < `bookings`.`start_date` AND '2023-01-16 13:00:00' < `bookings`.`start_date`
-    ) OR (
-        '2023-01-14 13:00:00' > `bookings`.`end_date` AND '2023-01-16 13:00:00' > `bookings`.`end_date`
-    ));
-
-
-// SELECT * FROM `rooms` LEFT OUTER JOIN `bookings` ON `rooms`.`id` = `bookings`.`room_id` WHERE (DATE('2023-01-14') < `bookings`.`start_date` AND DATE('2023-01-16') < `bookings`.`start_date`) OR (DATE('2023-01-14') > `bookings`.`end_date` AND DATE('2023-01-16') > `bookings`.`end_date`);
+Bookings.sync().then(() => {
+  bookings.forEach((booking) => {
+    Bookings.create(booking);
+  });
+});

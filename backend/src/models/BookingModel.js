@@ -1,6 +1,5 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
-import { bookings } from "../config/initialData.js";
 import Rooms from "./RoomModel.js";
 import Users from "./UserModel.js";
 
@@ -45,12 +44,6 @@ const Bookings = db.define(
     freezeTableName: true,
   }
 );
-
-Bookings.sync().then(() => {
-  bookings.forEach((booking) => {
-    Bookings.create(booking);
-  });
-});
 
 (async () => {
   await db.sync();
