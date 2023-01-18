@@ -80,6 +80,7 @@ const Register = (props) => {
           display: "flex",
           overflow: "hidden",
           borderRadius: "10px",
+          mt: "100px",
         }}
       >
         <Box
@@ -98,10 +99,10 @@ const Register = (props) => {
               margin: 0,
             }}
           >
-            Please register using the form below:
+            Inregistrati-va folosind formularul de mai jos:
           </h1>
           <TextField
-            label="First name"
+            label="Prenume"
             variant="outlined"
             style={{
               width: "100%",
@@ -117,7 +118,7 @@ const Register = (props) => {
             }}
           ></TextField>
           <TextField
-            label="Last name"
+            label="Nume"
             variant="outlined"
             style={{
               width: "100%",
@@ -149,7 +150,7 @@ const Register = (props) => {
             }}
           ></TextField>
           <TextField
-            label="Password"
+            label="Parola"
             variant="outlined"
             type="password"
             style={{
@@ -166,7 +167,7 @@ const Register = (props) => {
             }}
           ></TextField>
           <TextField
-            label="Repeat password"
+            label="Repeta Parola"
             variant="outlined"
             type="password"
             style={{
@@ -193,10 +194,10 @@ const Register = (props) => {
             variant="contained"
             onClick={handleRegister}
           >
-            REGISTER
+            INREGISTRARE
           </Button>
           <div>
-            Already have an account?<Link to="/"> Login Now!</Link>
+            Aveti deja un cont?<Link to="/"> Logati-va!</Link>
           </div>
         </Box>
         <Box
