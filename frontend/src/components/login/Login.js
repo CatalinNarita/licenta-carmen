@@ -15,7 +15,7 @@ import { Link, useNavigate, Navigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 
 const Login = () => {
-  const { loading, redirect } = useAuth()();
+  const { loading, redirect } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -83,14 +83,14 @@ const Login = () => {
                   margin: 0,
                 }}
               >
-                Welcome to Hotel X
+                Bine ati venit la Pensiunea Lacul Codrilor
               </h1>
               <p
                 style={{
                   margin: 0,
                 }}
               >
-                Login to start your booking experience!
+                Logati-va pentru a putea face rezervari
               </p>
               <TextField
                 label="Email"
@@ -109,7 +109,7 @@ const Login = () => {
                 }}
               ></TextField>
               <TextField
-                label="Password"
+                label="Parola"
                 variant="outlined"
                 type="password"
                 style={{
@@ -135,10 +135,10 @@ const Login = () => {
                 variant="contained"
                 onClick={handleLogin}
               >
-                SIGN IN
+                Logare
               </Button>
               <div>
-                Don't have an account?<Link to="/register"> Sign UP Now</Link>
+                Nu aveti cont?<Link to="/register"> Inregistrati-va acum!</Link>
               </div>
             </Box>
             <Box

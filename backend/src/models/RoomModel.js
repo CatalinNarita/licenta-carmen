@@ -7,14 +7,17 @@ const { DataTypes } = Sequelize;
 const Rooms = db.define(
   "rooms",
   {
-    breakfast_included: {
-      type: DataTypes.BOOLEAN,
+    title: {
+      type: DataTypes.STRING,
+    },
+    capacity: {
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    phone: {
+      type: DataTypes.STRING,
     },
     type: {
-      type: DataTypes.ENUM("SINGLE", "STANDARD", "DOUBLE", "TRIPLE", "SUITE"),
-    },
-    lake_view: {
-      type: DataTypes.BOOLEAN,
+      type: DataTypes.ENUM("DELUXE", "BUDGET", "APARTMENT"),
     },
   },
   {
@@ -22,11 +25,11 @@ const Rooms = db.define(
   }
 );
 
-// Rooms.sync().then(() => {
-//   rooms.forEach((room) => {
-//     Rooms.create(room);
-//   });
-// });
+Rooms.sync().then(() => {
+  rooms.forEach((room) => {
+    Rooms.create(room);
+  });
+});
 
 (async () => {
   await db.sync();

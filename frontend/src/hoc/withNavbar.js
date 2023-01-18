@@ -13,16 +13,16 @@ import { useNavigate, Navigate } from "react-router-dom";
 import "./navbar.css";
 
 const pages = [
-  { to: "/dashboard", label: "Acasa" },
-  { to: "/bookings", label: "Cazare" },
-  { to: "/account", label: "Cont" },
-  { to: "/offers", label: "Oferte" },
+  { to: "/dashboard", label: "Home" },
+  { to: "/rooms", label: "Rooms" },
+  { to: "/bookings", label: "Bookings" },
+  { to: "/account", label: "Account" },
   { to: "/contact", label: "Contact" },
 ];
 
 export const withNavbar = (Component) => {
   const Wrapper = () => {
-    const { loading, redirect, firstName, lastName } = useAuth()();
+    const { loading, redirect, firstName, lastName } = useAuth();
 
     const navigate = useNavigate();
 
@@ -36,6 +36,7 @@ export const withNavbar = (Component) => {
           credentials: "include",
         });
         if (res.status === 200) {
+          //fara eroare
           navigate("/");
         } else {
           const resBody = await res.json();
@@ -48,7 +49,7 @@ export const withNavbar = (Component) => {
 
     return (
       <>
-        <AppBar position="static">
+        <AppBar position="sticky">
           <Container maxWidth="xl">
             <Toolbar disableGutters>
               <HomeIcon sx={{ display: "flex", mr: 1 }} />

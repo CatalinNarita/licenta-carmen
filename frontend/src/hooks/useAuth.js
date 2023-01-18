@@ -19,7 +19,6 @@ export const useAuth = () => {
         const responseBody = await res.json();
         const decoded = jwt_decode(responseBody.accessToken);
         setToken(responseBody.accessToken);
-        console.log(decoded);
         setFirstName(decoded.firstName);
         setLastName(decoded.lastName);
         setUserId(decoded.id);
@@ -39,5 +38,5 @@ export const useAuth = () => {
     !token && checkToken();
   }, [token]);
 
-  return () => ({ token, userId, firstName, lastName, loading, redirect });
+  return { token, userId, firstName, lastName, loading, redirect };
 };
